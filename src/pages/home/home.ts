@@ -12,4 +12,13 @@ export class HomePage {
 
   }
 
+  /**
+   * Metodo que é chamado na home.html:  OBS push=cria o icone pra voltar pra home
+   *                                         setRoot=não cria o icone, só leva pra pagina  
+  */
+  login() {
+        this.navCtrl.setRoot('CategoriasPage');
+        
+  }
+
 }
