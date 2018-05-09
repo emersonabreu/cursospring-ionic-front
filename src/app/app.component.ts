@@ -4,7 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 
-
+/**
+ * Controlador da app.html
+ */
 @Component({
   templateUrl: 'app.html'
 })

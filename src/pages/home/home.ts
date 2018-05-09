@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController, IonicPage, MenuController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -8,8 +8,20 @@ import { NavController, IonicPage } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public menu: MenuController) {
 
+  }
+
+ /** Quando estiver fora da aplicação o menu está desabilitado
+  */
+  ionViewWillEnter() {
+  this.menu.swipeEnable(false);
+  }
+   
+  /** Quando estiver logado na aplicação o menu fica habilitado
+  */
+  ionViewDidLeave() {
+  this.menu.swipeEnable(true);
   }
 
   /**
