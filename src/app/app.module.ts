@@ -4,7 +4,13 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { HttpClientModule } from '@angular/common/http';
+import { CategoriaService } from '../services/domain/categoria.service';
 
+
+/**
+ * Modulo Principal da Aplicação MyApp
+ */
 @NgModule({
   declarations: [
     MyApp
@@ -12,7 +18,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    HttpClientModule,
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -22,7 +29,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    CategoriaService
   ]
 })
+/** O export garante que essa Classe AppModule pode ser enxergado por outro lugar 
+ */
 export class AppModule {}
