@@ -12,11 +12,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req)
         
         .catch((error, caught) => {
-
+                 /**
+                  *  Verifica se ouve um erro
+                   */
             let errorObj = error;
             if (errorObj.error) {
                 errorObj = errorObj.error;
             }
+            //Verifica se é um JSON
             if (!errorObj.status) {
                 errorObj = JSON.parse(errorObj);
             }
