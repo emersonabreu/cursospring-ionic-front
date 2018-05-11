@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 @IonicPage()
 @Component({
@@ -7,6 +8,13 @@ import { NavController, IonicPage, MenuController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
+   
+  /** Pra fazer o bind com os campos input name="email" e input name="senha" da home.html
+  */
+  creds : CredenciaisDTO = {
+    email: "",
+    senha: ""
+  };
 
   constructor(public navCtrl: NavController, public menu: MenuController) {
 
@@ -29,6 +37,7 @@ export class HomePage {
    *                                         setRoot=não cria o icone, só leva pra pagina  
   */
   login() {
+    console.log(this.creds);
         this.navCtrl.setRoot('CategoriasPage');
         
   }
