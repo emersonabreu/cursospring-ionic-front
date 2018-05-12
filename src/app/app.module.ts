@@ -7,7 +7,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoriaService } from '../services/domain/categoria.service';
 import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
+import { StorageService } from '../services/storage.service';
+
 
 
 /**
@@ -33,7 +36,7 @@ import { AuthService } from '../services/AuthService';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CategoriaService,
-    ErrorInterceptorProvider,AuthService
+    ErrorInterceptorProvider,AuthService,StorageService 
   ]
 })
 /** O export garante que essa Classe AppModule pode ser enxergado por outro lugar 
