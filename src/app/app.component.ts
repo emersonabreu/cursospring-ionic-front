@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 
 /**
- * Controlador da app.html
+ * Controlador principal app.html 
  */
 @Component({
   templateUrl: 'app.html'
@@ -13,16 +13,24 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  /**Pagina que é chamada no inicio da aplicação**/
   rootPage: string = 'HomePage';
 
   pages: Array<{title: string, component: string}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, 
+                public statusBar: StatusBar, 
+                       public splashScreen: SplashScreen) 
+    {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
+    /**
+     *Todas as paginas que queremos que sejam acrescentadas no menu devemos acrescentar aqui
+     * **/
     this.pages = [
-      { title: 'Home', component: 'HomePage' }
+      { title: 'Home', component: 'HomePage' },
+      { title: 'Profile', component: 'ProfilePage' }
+
     ];
 
   }
