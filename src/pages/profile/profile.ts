@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { StorageService } from '../../services/storage.service';
-import { ClienteDTO } from '../../services/domain/cliente.dto';
-import { ClienteService } from '../../services/domain/cliente.service';
 import { API_CONFIG } from '../../config/api.config';
+import { ClienteService } from '../../services/domain/cliente.service';
+import { ClienteDTO } from '../../models/cliente.dto';
 
 @IonicPage()
 @Component({
@@ -37,8 +37,10 @@ export class ProfilePage {
   }
  }
 
+   /** Pega a Imagem pelo id do cliente**/
  getImageIfExists() {
   this.clienteService.getImageFromBucket(this.cliente.id)
+     /** Se inscreve pra pegar a resposta e faz o bind da imagem cliente.imageUrl pelo id**/
   .subscribe(response => {
     this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.png`;
   },
