@@ -22,7 +22,8 @@ export class ProfilePage {
     public clienteService:ClienteService) {
   }
 
-  /** Carrega o email quando abrir a profile.html**/
+  /** Carrega o email quando abrir a profile.html:
+   * OBS: Pode ocorrer um erro 403 pois requer permissão**/
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
     /** Se tiver o usuario e o seu email, busca o cliente pelo seu email**/
@@ -33,9 +34,20 @@ export class ProfilePage {
         this.cliente=response;
         this.getImageIfExists();
       },
-        error => {});  
+
+     /**Se houver algum erro faz algo**/
+      error => {
+        /**Se for o 403, redireciona para a HomePage**/
+        if (error.status == 403) {
+          this.navCtrl.setRoot('HomePage');
+        }
+      });
+
+  /**Se houve erro no let localUser = this.storage.getLocalUser(); vai pra HomePage**/
+    } else {
+    this.navCtrl.setRoot('HomePage');
   }
- }
+}
 
    /** Pega a Imagem pelo id do cliente**/
  getImageIfExists() {

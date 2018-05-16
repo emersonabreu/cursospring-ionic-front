@@ -18,11 +18,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         console.log("Passou no interceptor"); 
         
         return next.handle(req)
-        
+         /**Se houve um erro então mostra ele**/
         .catch((error, caught) => {
-                 /**
-                  *  Verifica se ouve um erro
-                   */
+                
             let errorObj = error;
             if (errorObj.error) {
                 errorObj = errorObj.error;
@@ -32,12 +30,27 @@ export class ErrorInterceptor implements HttpInterceptor {
                 errorObj = JSON.parse(errorObj);
             }
 
-            console.log("Erro detectado pelo interceptor:");
+            console.log("Erro detectado pelo interceptor:"+errorObj.status);
             console.log(errorObj);
+
+        /**Faz o tratamento de erros especificos**/
+            switch(errorObj.status) {
+        /**Erro 403 para as requisições protegidas**/
+                case 403:
+                this.handle403();
+                break;
+            }
 
             return Observable.throw(errorObj);
         }) as any;
+
     }
+     
+     /**Se for o Erro 403 limpa o Storage Localuser**/
+    handle403() {
+    this.storage.setLocalUser(null);
+    }
+
 }
 
 export const ErrorInterceptorProvider = {
