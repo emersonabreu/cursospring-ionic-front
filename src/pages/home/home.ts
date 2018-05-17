@@ -53,4 +53,11 @@ export class HomePage {
     error => {});   
   }
 
+  /**Método pro usuário se cadastrar leva para a página de SignupPage=signup.html**/
+  signup() {
+    console.log("Passou em signup()");
+    this.navCtrl.push('SignupPage');
+  }
+
+
 }
