@@ -24,6 +24,17 @@ export class HomePage {
               public auth:AuthService) {
 
   }
+  
+  /** Quando o Usuário entrar na aplicação se ele tiver um token, 
+   * gera um novo a partir do atual e manda ele pra categorias.html**/
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {});  
+  }
 
  /** Quando estiver fora da aplicação o menu está desabilitado
   */

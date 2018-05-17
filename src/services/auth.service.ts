@@ -41,8 +41,23 @@ export class AuthService {
         };
         this.storage.setLocalUser(user);
     }  
+
+        /***Método que faz o App aproveitar o usuário logado
+         ** Usando o método post auth/refresh_token 
+         do EndPoint AuthResource :OBS::Atualiza o Token a partir do atual***/
+    refreshToken() {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/refresh_token`, 
+            {},
+            {
+                observe: 'response',
+                responseType: 'text'
+            });
+    }
+
     
-        /**Limpa o storage quando sair*/
+    
+    /**Limpa o storage quando sair*/
     logout() {
         this.storage.setLocalUser(null);
     }
