@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AuthService } from '../services/auth.service';
 
 
 /**
@@ -19,8 +20,9 @@ export class MyApp {
   pages: Array<{title: string, component: string}>;
 
   constructor(public platform: Platform, 
-                public statusBar: StatusBar, 
-                       public splashScreen: SplashScreen) 
+              public statusBar: StatusBar, 
+              public splashScreen: SplashScreen, 
+              public auth: AuthService) 
     {
     this.initializeApp();
 
@@ -31,7 +33,8 @@ export class MyApp {
       { title: 'Home', component: 'HomePage' },
       { title: 'Categorias', component: 'CategoriasPage' },
       { title: 'Profile', component: 'ProfilePage' },
-      { title: 'Signup', component: 'SignupPage' }
+      { title: 'Logout', component: '' }
+    
 
 
     ];
@@ -47,9 +50,23 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
-  }
+  /** O open page com a tipagem {title:string, component:string}
+   * Permite que os <button (click)="openPage(p)"> sejam manipulados**/
+  openPage(page : {title:string, component:string}) {
+
+    switch (page.title) {
+
+      /**Se clicou no botão Logout limpa o Storage e manda pra HomePage**/
+      case 'Logout':
+      this.auth.logout();
+      this.nav.setRoot('HomePage');
+      break;
+      
+      /**Senão, manda pra padrão que ele clicar**/
+      default:
+      this.nav.setRoot(page.component);
+    }
+ }
+
+
 }
