@@ -40,4 +40,8 @@ export class CategoriasPage {
         console.log(error);
       });
   }
+  /*Aula 132: Metodo que Chama a pagina de Produtos*/
+  showProdutos() {
+    this.navCtrl.push('ProdutosPage');    
+  }
 }
