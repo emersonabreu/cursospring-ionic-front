@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
 import { ProdutoService } from '../../services/domain/produto.service';
+import { API_CONFIG } from '../../config/api.config';
 
 /**
  * Generated class for the ProdutosPage page.
@@ -41,6 +42,25 @@ export class ProdutosPage {
       },
       error => {});
   }
+
+          /**Aula 134: Carregando a url dos produtos se ela existir
+           * Se não existir coloca a padrão "item.imageUrl || 'assets/imgs/prod.jpg**/
+    loadImageUrls() {
+                 /**Percorre a lista de produtos pegando cada produto **/
+    for (var i=0; i<this.items.length; i++) {
+                     /**Insere Produto i**/
+      let item = this.items[i];
+                      /**Pega a url do Produto Exe: assets/imgs/prod${1}-small.jpg**/
+      this.produtoService.getSmallImageFromBucket(item.id)
+        .subscribe(response => {
+                        /**Atualiza a url da imagem item.imageUrl carregando a  imagem do Produto 1 **/
+          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
+        },
+        error => {});
+    }
+                /**Percorre todos os produtos**/
+
+  }  
 
     
 }
