@@ -40,8 +40,11 @@ export class CategoriasPage {
         console.log(error);
       });
   }
-  /*Aula 132: Metodo que Chama a pagina de Produtos*/
-  showProdutos() {
-    this.navCtrl.push('ProdutosPage');    
+   /*Aula 132: Metodo que Chama a pagina de Produtos*/
+   showProdutos(categoria_id : string) {
+         /*Passa o id da categoria para a página ProdutosPage */
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id});    
   }
+
+  
 }

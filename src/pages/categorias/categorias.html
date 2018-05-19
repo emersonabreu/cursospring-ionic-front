@@ -10,8 +10,10 @@
 
 <ion-content padding>
   <ion-list>
-                      <!--Aula 132: metodo (click)="showProdutos() faz o Bind para mostrar os produtos-->
-    <button ion-item  *ngFor="let item of items" (click)="showProdutos()">
+                <!--Aula 132: metodo (click)="showProdutos(item.id) 
+                  faz o Bind para mostrar os produtos Passando o id da categoria-->
+                                      <!--Aula 133: Passa o id da categoria-->
+    <button ion-item  *ngFor="let item of items" (click)="showProdutos(item.id)">
       <ion-thumbnail item-start>
         <img src="assets/imgs/cat{{item.id}}.png">
       </ion-thumbnail>
