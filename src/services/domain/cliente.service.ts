@@ -35,5 +35,17 @@ export class ClienteService {
        /**Dá um get passando a url e fala que a resposta será uma imagem**/
         return this.http.get(url, {responseType : 'blob'});
     }
+
+           /**Aula 131: Salvando um novo Cliente com ClienteDTO**/
+    insert(obj : ClienteDTO) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/clientes`, 
+            obj,
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+    }
         
 }

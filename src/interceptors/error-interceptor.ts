@@ -3,6 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 import { Observable } from 'rxjs/Rx'; // IMPORTANTE: IMPORT ATUALIZADO
 import { StorageService } from '../services/storage.service';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { FieldMessage } from '../models/fieldmessage';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
@@ -46,6 +47,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                 case 403:
                 this.handle403();
                 break;
+        
+       /**Aula 131:Erro ao Salvar o cliente **/
+                case 422:
+                this.handle422(errorObj);
+                break;
                 
         /**Senão for nem o 401 nem o 403 cai no default**/
                 default:
@@ -77,6 +83,31 @@ export class ErrorInterceptor implements HttpInterceptor {
         });
         alert.present();
     }
+
+    /**Aula 131:Cria um Alert de erro com a lista de erros**/
+    handle422(errorObj) {
+        let alert = this.alertCtrl.create({
+            title: 'Erro 422: Validação',
+            message: this.listErrors(errorObj.errors),
+            enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        alert.present();
+    }
+
+             /**Aula 131: Lista de erros**/
+    private listErrors(messages : FieldMessage[]) : string {
+        let s : string = '';
+        for (var i=0; i<messages.length; i++) {
+            s = s + '<p><strong>' + messages[i].fieldName + "</strong>: " + messages[i].message + '</p>';
+        }
+        return s;
+    }
+           /******************************************************/
 
 
     handleDefaultEror(errorObj) {

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EstadoDTO } from '../../models/estado.dto';
 import { CidadeDTO } from '../../models/cidade.dto';
 import { EstadoService } from '../../services/domain/estado.service';
 import { CidadeService } from '../../services/domain/cidade.service';
+import { ClienteService } from '../../services/domain/cliente.service';
 
 /**Página que controla a 'signup.html' **/
 @IonicPage()
@@ -27,9 +28,15 @@ export class SignupPage {
 
     /****** Aula 129 Usando os services*****/
     public cidadeService: CidadeService,
-    public estadoService: EstadoService) 
+    public estadoService: EstadoService,
     /**************************************/
 
+    /****** Aula 131 Usando os services*****/
+    public clienteService: ClienteService,
+    public alertCtrl: AlertController
+    /**************************************/
+
+  )
     {
 
       /**Cria um Formulário na 'signup.html'**/
@@ -86,6 +93,31 @@ export class SignupPage {
   /**Método chamado quando o usuário clicar em no botão "Criar Conta"**/
   signupUser()  {
     console.log('Enviou o Formulário');
+       /****** Aula 131: Inserindo o novo Cliente*****/
+    this.clienteService.insert(this.formGroup.value)
+    .subscribe(response => {
+         /*****Mostrando um alert se inseriu com sucesso*****/
+      this.showInsertOk();
+    },
+    error => {});
   }
-
+ 
+         /****** Aula 131: Alert de Sucesso*****/
+  showInsertOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+          /****** Aula 131: Cadastrou desempilha a pagina, ou seja vai pra home.html*****/
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
+ }
 }
