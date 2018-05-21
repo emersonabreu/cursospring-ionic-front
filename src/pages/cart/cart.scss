@@ -1,3 +1,10 @@
+
+/*Aula 138: css da página do carrinho de compras cart.html*/
 page-cart {
 
+    /*Aula 138: Coloca o botão de -/menos do lado esquerdo do botão de +/mais  */
+    .nolinebreak {
+        float: left;
+        padding-right: 10px;
+    }
 }

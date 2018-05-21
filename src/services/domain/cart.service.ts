@@ -36,8 +36,66 @@ export class CartService {
         if (position == -1) {
             cart.items.push({quantidade: 1, produto: produto});
         }
-                /**Aula 137: Se inseriu, então atualiza o carrinho no Storage adicionando mais um**/
+        
+        /**Aula 137: Se inseriu, então atualiza o carrinho no Storage adicionando mais um**/
         this.storage.setCart(cart);
         return cart;
     }
+    /**Aula 138: Pega o carrinho**/
+    removeProduto(produto: ProdutoDTO) : Cart {
+        let cart = this.getCart();
+        /**Aula 138: Encontra a posição do produto que veio**/
+        let position = cart.items.findIndex(x => x.produto.id == produto.id);
+          /**Aula 138: Se encontro, então faz a 1 remoção nessa posição**/
+        if (position != -1) {
+            cart.items.splice(position, 1);
+        }
+        /**Aula 138: Atualiza o carrinho**/
+        this.storage.setCart(cart);
+        return cart;
+    }
+     
+    /**Aula 138: Encontra a posição se os produtos forem iguais e acresenta 1 unidade
+     * na variavel quantidade**/
+    increaseQuantity(produto: ProdutoDTO) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(x => x.produto.id == produto.id);
+        if (position != -1) {
+            cart.items[position].quantidade++;
+        }
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+     /**Aula 138: Encontra a posição se os produtos forem iguais e diminui 1 unidade
+     * na variavel quantidade**/
+    decreaseQuantity(produto: ProdutoDTO) : Cart {
+        let cart = this.getCart();
+        let position = cart.items.findIndex(x => x.produto.id == produto.id);
+
+                /**Aula 138: Vai decrementando até chegar a 1
+                 * chegou em 0, remove o produto do carrinho**/
+        if (position != -1) {
+            cart.items[position].quantidade--;
+            if (cart.items[position].quantidade < 1) {
+                cart = this.removeProduto(produto);
+            }
+        }
+        /**Aula 138: Atualiza o carrinho**/
+        this.storage.setCart(cart);
+        return cart;
+    }
+
+    /**Aula 138: Percorre o carrinho para somar o total**/
+    total() : number {
+        let cart = this.getCart();
+        let sum = 0;
+
+        /**Aula 138: Multiplica o preço pela quantidade cada produto do carrinho**/
+        for (var i=0; i<cart.items.length; i++) {
+            sum += cart.items[i].produto.preco * cart.items[i].quantidade;
+        }
+        return sum;
+    }
+
 }
