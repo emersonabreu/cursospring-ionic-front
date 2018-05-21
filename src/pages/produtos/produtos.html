@@ -10,10 +10,14 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let item of items">
+    <!--Aula 134: Carregando a imagem dos produtos na tela-->
+        <!--Aula 136: Chamando o metodo showDetail(item.id)
+        passando o id do produto para a produto-detail.ts-->
+   <button ion-item *ngFor="let item of items" (click)="showDetail(item.id)">
       <ion-thumbnail item-start>
-    
-        <img src="assets/imgs/prod{{item.id}}.png">
+
+             <!--Aula 134: Carrega a imagem pela url ou pega a padrçat-->
+          <img class="circle" [src]="item?.imageUrl || 'assets/imgs/prod.png'">
 
       </ion-thumbnail>
       <h2>{{item.nome}}</h2>

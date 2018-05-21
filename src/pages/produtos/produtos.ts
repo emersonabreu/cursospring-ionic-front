@@ -39,6 +39,7 @@ export class ProdutosPage {
           /**Preenche a lista de  items : ProdutoDTO[] na produtos.html
            * Obs: Tem que especificar que só quer o que está no ['content'] da resposta **/
         this.items = response['content'];
+        this.loadImageUrls();
       },
       error => {});
   }
@@ -46,15 +47,18 @@ export class ProdutosPage {
           /**Aula 134: Carregando a url dos produtos se ela existir
            * Se não existir coloca a padrão "item.imageUrl || 'assets/imgs/prod.jpg**/
     loadImageUrls() {
+      console.log('Atualizando a url da imagem');
+
                  /**Percorre a lista de produtos pegando cada produto **/
     for (var i=0; i<this.items.length; i++) {
                      /**Insere Produto i**/
       let item = this.items[i];
-                      /**Pega a url do Produto Exe: assets/imgs/prod${1}-small.jpg**/
+                      /**Chama o metodo busca a url do produto caso exista**/
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
                         /**Atualiza a url da imagem item.imageUrl carregando a  imagem do Produto 1 **/
-          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
+        item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.png`;
+
         },
         error => {});
     }
@@ -62,5 +66,14 @@ export class ProdutosPage {
 
   }  
 
-    
+
+  /**Aula 136: Chama a pagina ProdutoDetailPage 
+   * e passa o id do produto pro seu controlador **/
+  showDetail(produto_id : string) {
+    this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id});
+  }
+  
 }
+
+    
+
