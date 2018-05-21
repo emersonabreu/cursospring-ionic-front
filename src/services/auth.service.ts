@@ -58,7 +58,10 @@ export class AuthService {
     
     
     /**Limpa o storage quando sair*/
+    /**Aula 137: Limpa o carrinho**/
+
     logout() {
         this.storage.setLocalUser(null);
+        this.storage.setCart(null);
     }
 }

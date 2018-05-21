@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { API_CONFIG } from '../../config/api.config';
+import { CartService } from '../../services/domain/cart.service';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,9 @@ export class ProdutoDetailPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
       /*--Aula 135: Service pra buscar os detalhes do produto*/
-    public produtoService: ProdutoService) {
+    public produtoService: ProdutoService,
+
+    public cartService: CartService) {
   }
 
   /*--Aula 136: Carrega automaticamente ao entrar na produto-detail.html */
@@ -40,8 +43,14 @@ export class ProdutoDetailPage {
       .subscribe(response => {
             /***Aula 136: Caso a resposta for verdadeira 
              * joga a imagem na item.imageUrl da produto-detail.html ***/
-        this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${this.item.id}-small.png`;
+        this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/produtos/prod${this.item.id}-small.png`;
       },
       error => {});
+  }
+
+    /*--Aula 137: Adiciona o item que veio da produto-detail.html ao carrinho */
+  addToCart(produto: ProdutoDTO) {
+    this.cartService.addProduto(produto);
+    this.navCtrl.setRoot('CartPage');
   }
 }
