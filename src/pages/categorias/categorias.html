@@ -6,10 +6,17 @@
     </button>
     <ion-title>Categorias</ion-title>
   </ion-navbar>
+   
 </ion-header>
 
 <ion-content padding>
+   <!--Aula 139:Botão flutuante que leva ao carrinho de compras-->
+   <ion-fab top right edge>
+      <button navPush="CartPage" ion-fab mini><ion-icon name="cart"></ion-icon></button>
+  </ion-fab>
   <ion-list>
+  
+
                 <!--Aula 132: metodo (click)="showProdutos(item.id) 
                   faz o Bind para mostrar os produtos Passando o id da categoria-->
                                       <!--Aula 133: Passa o id da categoria-->
