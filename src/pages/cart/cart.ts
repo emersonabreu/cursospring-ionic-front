@@ -69,5 +69,10 @@ export class CartPage {
   goOn() {
     this.navCtrl.setRoot('CategoriasPage');
   }
+        
+  /**Aula 142: Finalizando o pedido na tela de escolha de endereço**/
+  checkout() {
+        this.navCtrl.push('PickAddressPage');
+      }
 
 }
