@@ -15,8 +15,10 @@
         <ion-list-header>
           Selecione um endereço
         </ion-list-header>
-        <!--/**Aula 142: Lista de enderecos**/-->       
-        <button ion-item *ngFor="let item of items">
+        <!--/**Aula 142: Lista de enderecos**/-->
+        <!--/**Aula 144: Metodo (click)="nextPage(item)**/-->   
+
+        <button ion-item *ngFor="let item of items" (click)="nextPage(item)">
             <h2>{{item.logradouro}}, {{item.numero}}</h2>
             <p>{{item.complemento}} {{item.bairro}} CEP {{item.cep}}</p>
             <p>{{item.cidade.nome}}, {{item.cidade.estado.nome}}</p>

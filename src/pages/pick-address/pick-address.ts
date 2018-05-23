@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EnderecoDTO } from '../../models/endereco.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { StorageService } from '../../services/storage.service';
+import { PedidoDTO } from '../../models/pedido.dto';
+import { CartService } from '../../services/domain/cart.service';
 
 /**
  * Generated class for the PickAddressPage page.
@@ -19,9 +21,14 @@ import { StorageService } from '../../services/storage.service';
 export class PickAddressPage {
   /**Aula 143:Variavel que armazena os dados do cliente logado**/
   items: EnderecoDTO[];
+    /**Aula 144:Variavel que armazena o pedido**/
+  pedido: PedidoDTO;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public storage: StorageService,
-    public clienteService:ClienteService) {
+    public clienteService:ClienteService,
+        /**Aula 144:carrrinho**/
+    public cartService: CartService) {
   }
 
   ionViewDidLoad() {
@@ -34,7 +41,22 @@ export class PickAddressPage {
       .subscribe(response => {
       /**Aula 143: armazena os enderecos**/
         this.items=response ['enderecos'];
-        
+          
+        /**Aula 144: Pega o carrinho**/
+        let cart = this.cartService.getCart();
+
+     this.pedido = {
+            cliente: {id: response['id']},
+            enderecoDeEntrega: null,
+            pagamento: null,
+            /**Aula 144: Obs: tem que converter a resposta
+             *  pois queremos só o id do produto e a modelo do produto tem
+             * id : string; nome : string; preco : number;imageUrl? : string;
+             * 
+             * **/
+         itens : cart.items.map(x => { return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
+          }
+
       },
         /**Se houver algum erro faz algo**/
       error => {
@@ -48,6 +70,12 @@ export class PickAddressPage {
     } else {
     this.navCtrl.setRoot('HomePage');
   }
+}
+  
+/**Aula 144: O nextPage pega o endereço escolhido  e seta no pedido o id do endereco**/
+nextPage(item: EnderecoDTO) {
+  this.pedido.enderecoDeEntrega = {id: item.id};
+  console.log(this.pedido); 
 }
 }
     
