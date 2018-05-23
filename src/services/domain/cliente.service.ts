@@ -16,14 +16,15 @@ export class ClienteService {
 
 
      /**Faz uma requisição no BackEnd pra buscar o cliente pelo email passado**/
-    findByEmail(email: string) : Observable<ClienteDTO> {
+    /**Aula 143: Corrigindo a tipagem pra buscar todos os dados do cliente**/
+    findByEmail(email: string) {
 
              /**Pega o token e lança no Header**/
        // let token = this.storage.getLocalUser().token;
         //let authHeader = new HttpHeaders({'Authorization': 'Bearer ' + token});
         
         /**Retorna o Cliente pelo seu email que foi passado inserindo o token **/
-        return this.http.get<ClienteDTO>( `${API_CONFIG.baseUrl}/clientes/email?value=${email}`);     
+        return this.http.get( `${API_CONFIG.baseUrl}/clientes/email?value=${email}`);     
     }
     
     /**Pega a imagem do cliente
