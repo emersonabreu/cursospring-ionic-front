@@ -6,6 +6,7 @@ import { EnderecoDTO } from '../../models/endereco.dto';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { CartService } from '../../services/domain/cart.service';
+import { PedidoService } from '../../services/domain/pedido.service';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,9 @@ export class OrderConfirmationPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public clienteService: ClienteService,
-    public cartService: CartService) {
+    public cartService: CartService,
+    /**Aula 147: Usado para salvar o pedido**/
+    public pedidoService: PedidoService) {
   /**Aula 146: o pedido vem como parametro da payment.ts**/
     this.pedido = this.navParams.get('pedido');
   }
@@ -53,8 +56,28 @@ export class OrderConfirmationPage {
     return list[position];
   }
  
-      /**Aula 146: Retorna o total**/
+  /**Aula 146: Retorna o total**/
   total() : number {
     return this.cartService.total();
   } 
+  /**Aula 147: Volta pra pagina de Carrinho**/
+  back() {
+    this.navCtrl.setRoot('CartPage');
+  }
+
+    /**Aula 147: Salva o pedido e depois limpa o carrinho**/
+    checkout() {
+    this.pedidoService.insert(this.pedido)
+      .subscribe(response => {
+        /**Aula 147: Cria um carrinho vazio**/
+        
+        this.cartService.createOrClearCart();
+        console.log(response.headers.get('location'));
+      },
+      error => {
+        if (error.status == 403) {
+          this.navCtrl.setRoot('HomePage');
+        }
+      });
+  }
 }
