@@ -76,6 +76,9 @@ export class PickAddressPage {
 nextPage(item: EnderecoDTO) {
   this.pedido.enderecoDeEntrega = {id: item.id};
   console.log(this.pedido); 
+  /**Aula 145:Direciona pra pagina payment.html passando o pedido 
+   * como parametro pro controlador  **/
+  this.navCtrl.push('PaymentPage', {pedido: this.pedido});
 }
 }
     
