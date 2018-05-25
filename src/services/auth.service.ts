@@ -42,8 +42,7 @@ export class AuthService {
         this.storage.setLocalUser(user);
     }  
 
-        /***Método que faz o App aproveitar o usuário logado
-         ** Usando o método post auth/refresh_token 
+        /**Método que faz o App aproveitar o usuário logado Usando o método post auth/refresh_token 
          do EndPoint AuthResource :OBS::Atualiza o Token a partir do atual***/
     refreshToken() {
         return this.http.post(
@@ -59,7 +58,6 @@ export class AuthService {
     
     /**Limpa o storage quando sair*/
     /**Aula 137: Limpa o carrinho**/
-
     logout() {
         this.storage.setLocalUser(null);
         this.storage.setCart(null);

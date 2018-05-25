@@ -26,6 +26,11 @@ export class ClienteService {
         /**Retorna o Cliente pelo seu email que foi passado inserindo o token **/
         return this.http.get( `${API_CONFIG.baseUrl}/clientes/email?value=${email}`);     
     }
+
+    /**Aula 146: busca o cliente pelo seu id**/
+    findById(id: string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/${id}`);
+    }
     
     /**Pega a imagem do cliente
      * Exemplo: url/cp1.jpg 

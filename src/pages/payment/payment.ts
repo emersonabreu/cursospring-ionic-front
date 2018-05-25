@@ -39,6 +39,8 @@ export class PaymentPage {
   /**Aula 145:Mostra o formulário na tela**/
   nextPage() {
     this.pedido.pagamento = this.formGroup.value;
+      /**Aula 146:Vai pra tela de confirmação passando o pedido**/
+    this.navCtrl.setRoot('OrderConfirmationPage', {pedido: this.pedido});
     console.log(this.pedido);
 
   }
