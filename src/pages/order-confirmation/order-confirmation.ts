@@ -22,6 +22,9 @@ export class OrderConfirmationPage {
   cliente: ClienteDTO;
   endereco: EnderecoDTO;
 
+  /**Aula 148: Usada para salvar o codigo do pedido 
+   * extraido do header location**/
+  codpedido: string;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -71,13 +74,28 @@ export class OrderConfirmationPage {
       .subscribe(response => {
         /**Aula 147: Cria um carrinho vazio**/
         
+        /**Aula 148: limpa o carrinho**/
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
+        /**Aula 148: Armazena o codigo do pedido
+         * pra controlar a mensagem a mostrar na tela**/
+        this.codpedido = this.extractId(response.headers.get('location'));
+      
       },
       error => {
         if (error.status == 403) {
           this.navCtrl.setRoot('HomePage');
         }
       });
+  }
+
+          /**Aula 148: Volta pra pagina de categorias**/
+  home() {
+    this.navCtrl.setRoot('CategoriasPage');
+  }
+ 
+        /**Aula 148: Extrai o id do location no header**/
+  private extractId(location : string) : string {
+    let position = location.lastIndexOf('/');
+    return location.substring(position + 1, location.length);
   }
 }
