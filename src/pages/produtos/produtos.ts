@@ -85,7 +85,7 @@ export class ProdutosPage {
 
   }
 
-    /**Aula 139: Metodo que cria e carrega o loading**/
+    /**Aula 149: Metodo que cria e carrega o loading**/
   presentLoading() {
     let loader = this.loadingCtrl.create({
       content: "Aguarde..."
@@ -93,7 +93,14 @@ export class ProdutosPage {
     loader.present();
     return loader;
   }
-
+  
+      /**Aula 150: Metodo que cria o refresher em alguma requisição **/
+  doRefresh(refresher) {
+    this.ionViewDidLoad();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
 }
 
     
