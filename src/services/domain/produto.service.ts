@@ -12,8 +12,9 @@ export class ProdutoService {
   }
 
     /*Aula 133: Metodo que busca os produtos de determinada categoria*/
-  findByCategoria(categoria_id : string) {
-    return this.http.get(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}`);
+  findByCategoria(categoria_id : string,page : number = 0, linesPerPage : number = 24) {
+        /*Aula 151: Incluindo o InfinitScroll*/
+    return this.http.get(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}&page=${page}&linesPerPage=${linesPerPage}`);
   }
   
     /*Aula 134: Buscando a imagem pequena do produto */

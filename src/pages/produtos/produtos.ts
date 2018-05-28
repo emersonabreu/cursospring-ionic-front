@@ -18,8 +18,10 @@ import { API_CONFIG } from '../../config/api.config';
 })
 export class ProdutosPage {
   
-  items : ProdutoDTO[];
-
+  //items : ProdutoDTO[];
+  /**Aula 151: Vai concatenar com as paginas**/
+  items : ProdutoDTO[] = [];
+  page : number = 0;
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     /**Aula 133: Passando o ProdutoService para ser usado**/
@@ -38,27 +40,40 @@ export class ProdutosPage {
           /**Aula 149: Mostra o Loading na tela enquanto carrega 
            * os produtos**/
         let loader = this.presentLoading();
-    this.produtoService.findByCategoria(categoria_id)
+    //this.produtoService.findByCategoria(categoria_id)
+    /**Aula 151: Passa os parametros para a buscar**/
+    this.produtoService.findByCategoria(categoria_id, this.page, 10)
       .subscribe(response => {
 
           /**Preenche a lista de  items : ProdutoDTO[] na produtos.html
            * Obs: Tem que especificar que só quer o que está no ['content'] da resposta **/
-        this.items = response['content'];
+        //this.items = response['content'];
+        
+        /**Aula 151: a lista esta vazia**/
+        let start = this.items.length;
+        this.items = this.items.concat(response['content']);
+        /**Aula 151: a lista passa a ter 10**/
+        let end = this.items.length - 1
         /**Aula 149: Para o Loading depois que carregar os produtos**/
         loader.dismiss();
-        this.loadImageUrls();
+        //this.loadImageUrls();
+        console.log(this.page);
+        console.log(this.items);
+        this.loadImageUrls(start, end);
       },
       error => {});
   }
 
           /**Aula 134: Carregando a url dos produtos se ela existir
            * Se não existir coloca a padrão "item.imageUrl || 'assets/imgs/prod.jpg**/
-    loadImageUrls() {
+    //loadImageUrls() {
+      /**Aula 151:Percorre a lista atualizando sempre o tamanho**/
+   loadImageUrls(start: number, end: number) {
       console.log('Atualizando a url da imagem');
 
                  /**Percorre a lista de produtos pegando cada produto **/
-    for (var i=0; i<this.items.length; i++) {
-                     /**Insere Produto i**/
+    //for (var i=0; i<this.items.length; i++) {
+      for (var i=start; i<=end; i++) {
       let item = this.items[i];
                       /**Chama o metodo busca a url do produto caso exista**/
       this.produtoService.getSmallImageFromBucket(item.id)
@@ -96,9 +111,21 @@ export class ProdutosPage {
   
       /**Aula 150: Metodo que cria o refresher em alguma requisição **/
   doRefresh(refresher) {
+  /**Aula 151: Sempre 0 a lista quando chamar o doRefresh(refresher)**/
+    this.page = 0;
+    this.items = [];
     this.ionViewDidLoad();
     setTimeout(() => {
       refresher.complete();
+    }, 1000);
+  }
+  
+    /**Aula 151: Chama o infinitScroll acrescenta 1 na pagina**/
+  doInfinite(infiniteScroll) {
+    this.page++;
+    this.ionViewDidLoad();
+    setTimeout(() => {
+      infiniteScroll.complete();
     }, 1000);
   }
 }
