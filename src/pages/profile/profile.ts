@@ -4,7 +4,7 @@ import { StorageService } from '../../services/storage.service';
 import { API_CONFIG } from '../../config/api.config';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { ClienteDTO } from '../../models/cliente.dto';
-
+import { Camera, CameraOptions } from '@ionic-native/camera';
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -15,11 +15,18 @@ export class ProfilePage {
     /**Faz o Bind na profile.html {{ cliente }} **/
   //email: string;
    cliente: ClienteDTO;
+   
+   /**Aula 152: Armazena a foto tirada**/
+   picture: string;
+   /**Aula 152: Controla se a camera esta ligada e desabilita o botão**/
+  cameraOn: boolean = false;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public storage: StorageService,
-    public clienteService:ClienteService) {
+    public clienteService:ClienteService,
+    /**Aula 152: Usa a camera**/ 
+    public camera: Camera) {
   }
 
   /** Carrega o email quando abrir a profile.html:
@@ -60,4 +67,23 @@ export class ProfilePage {
   error => {});
 }
 
+   /**Aula 152: Metodo que tira a foto**/
+getCameraPicture() {
+     /**Aula 152: Deixa o botão ativo**/
+  this.cameraOn = true;
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.PNG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
+  
+   this.camera.getPicture(options).then((imageData) => {
+   this.picture = 'data:image/png;base64,' + imageData;
+    /**Aula 152: Tirou a foto desativa o botão**/
+   this.cameraOn = false;
+  }, (err) => {
+  });
+}
+ 
 }
