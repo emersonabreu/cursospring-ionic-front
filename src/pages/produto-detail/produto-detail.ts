@@ -43,7 +43,7 @@ export class ProdutoDetailPage {
       .subscribe(response => {
             /***Aula 136: Caso a resposta for verdadeira 
              * joga a imagem na item.imageUrl da produto-detail.html ***/
-        this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/produtos/prod${this.item.id}-small.png`;
+        this.item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${this.item.id}-small.jpg`;
       },
       error => {});
   }

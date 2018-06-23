@@ -19,7 +19,7 @@ export class ProdutoService {
   
     /*Aula 134: Buscando a imagem pequena do produto */
   getSmallImageFromBucket(id : string) : Observable<any> {
-    let url = `${API_CONFIG.bucketBaseUrl}/produtos/prod${id}-small.png`
+    let url = `${API_CONFIG.bucketBaseUrl}/prod${id}-small.jpg`
     return this.http.get(url, {responseType : 'blob'});
   } 
 
@@ -30,7 +30,7 @@ export class ProdutoService {
 
     /*Aula 136: Busca a imagem do produto */
   getImageFromBucket(id : string) : Observable<any> {
-    let url = `${API_CONFIG.bucketBaseUrl}/produtos/prod${id}-small.png`
+    let url = `${API_CONFIG.bucketBaseUrl}/prod${id}-small.jpg`
     return this.http.get(url, {responseType : 'blob'});
   }  
 

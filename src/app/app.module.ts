@@ -13,6 +13,7 @@ import { ClienteService } from '../services/domain/cliente.service';
 import { AuthInterceptorProvider } from '../interceptors/auth-interceptor';
 import { ProdutoService } from '../services/domain/produto.service';
 import { CartService } from '../services/domain/cart.service';
+import { ImageUtilService } from '../services/image-util.service';
 
 
 
@@ -46,7 +47,9 @@ import { CartService } from '../services/domain/cart.service';
     ProdutoService,
 
    /**Aula 137: Disponibiliza o CartService para a aplicação**/
-    CartService
+    CartService,
+       /**Aula 153: Disponibiliza o ImageUtilService para a aplicação**/
+    ImageUtilService
   ]
 })
 /** O export garante que essa Classe AppModule pode ser enxergado por outro lugar 

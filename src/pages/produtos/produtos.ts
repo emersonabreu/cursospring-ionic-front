@@ -79,7 +79,7 @@ export class ProdutosPage {
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
                         /**Atualiza a url da imagem item.imageUrl carregando a  imagem do Produto 1 **/
-        item.imageUrl = `${API_CONFIG.bucketBaseUrl}/produtos/prod${item.id}-small.png`;
+        item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
 
         },
         error => {});

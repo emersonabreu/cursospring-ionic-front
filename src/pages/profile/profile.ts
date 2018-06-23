@@ -5,11 +5,13 @@ import { API_CONFIG } from '../../config/api.config';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { AuthService } from '../../services/auth.service';
 @IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
+
 export class ProfilePage {
   
     /**Faz o Bind na profile.html {{ cliente }} **/
@@ -18,6 +20,7 @@ export class ProfilePage {
    
    /**Aula 152: Armazena a foto tirada**/
    picture: string;
+
    /**Aula 152: Controla se a camera esta ligada e desabilita o botão**/
   cameraOn: boolean = false;
   constructor(
@@ -26,43 +29,53 @@ export class ProfilePage {
     public storage: StorageService,
     public clienteService:ClienteService,
     /**Aula 152: Usa a camera**/ 
-    public camera: Camera) {
+    public camera: Camera,
+    public auth:AuthService) {
+  
   }
 
   /** Carrega o email quando abrir a profile.html:
    * OBS: Pode ocorrer um erro 403 pois requer permissão**/
   ionViewDidLoad() {
-    let localUser = this.storage.getLocalUser();
-    /** Se tiver o usuario e o seu email, busca o cliente pelo seu email**/
-    /**Se inscreve pra pegar a resposta que veio com id; nome; email**/
-    if (localUser && localUser.email) {
-      this.clienteService.findByEmail(localUser.email)
-      .subscribe(response => {
-      /**Aula 143:casting, corrigindo a tipagem pra ClienteDTO**/
-        this.cliente=response as ClienteDTO;
-        this.getImageIfExists();
-      },
-
-     /**Se houver algum erro faz algo**/
-      error => {
-        /**Se for o 403, redireciona para a HomePage**/
-        if (error.status == 403) {
-          this.navCtrl.setRoot('HomePage');
-        }
-      });
-
-  /**Se houve erro no let localUser = this.storage.getLocalUser(); vai pra HomePage**/
-    } else {
-    this.navCtrl.setRoot('HomePage');
+    this.loadData();
   }
+
+loadData() {
+  let localUser = this.storage.getLocalUser();
+  /** Se tiver o usuario e o seu email, busca o cliente pelo seu email**/
+  /**Se inscreve pra pegar a resposta que veio com id; nome; email**/
+  if (localUser && localUser.email) {
+    this.clienteService.findByEmail(localUser.email)
+    .subscribe(response => {
+    /**Aula 143:casting, corrigindo a tipagem pra ClienteDTO**/
+      this.cliente=response as ClienteDTO;
+      this.getImageIfExists();
+
+
+    },
+
+   /**Se houver algum erro faz algo**/
+    error => {
+      /**Se for o 403, redireciona para a HomePage**/
+      if (error.status == 403) {
+        this.navCtrl.setRoot('HomePage');
+      }
+    });
+
+/**Se houve erro no let localUser = this.storage.getLocalUser(); vai pra HomePage**/
+  } else {
+  this.navCtrl.setRoot('HomePage');
 }
 
+}
    /** Pega a Imagem pelo id do cliente**/
  getImageIfExists() {
   this.clienteService.getImageFromBucket(this.cliente.id)
      /** Se inscreve pra pegar a resposta e faz o bind da imagem cliente.imageUrl pelo id**/
   .subscribe(response => {
-    this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.png`;
+    this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
+    
+    
   },
   error => {});
 }
@@ -85,5 +98,44 @@ getCameraPicture() {
   }, (err) => {
   });
 }
- 
+
+    /**Aula 161: Buscando imagem na galeria**/
+getGalleryPicture() {
+
+  this.cameraOn = true;
+
+  const options: CameraOptions = {
+    quality: 100,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.PNG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
+  
+  this.camera.getPicture(options).then((imageData) => {
+   this.picture = 'data:image/png;base64,' + imageData;
+   this.cameraOn = false;
+  }, (err) => {
+  });
+}
+
+   /**Aula 153: Metodo que Envia a foto**/
+sendPicture() {
+  this.clienteService.uploadPicture(this.picture)
+    .subscribe(response => {
+      this.picture = null;
+      this.loadData();
+      this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));
+      },
+      error => {}); 
+    },
+    error => {
+    });
+}
+
+cancel() {
+  this.picture = null;
+}
 }
