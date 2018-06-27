@@ -10,7 +10,8 @@
 <ion-content padding>
   <!-- Faz o Bind na Imagem se tiver a url da imagem ou senão busca na pasta assets/imgs-->
   <ion-avatar>
-    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+      <!-- Aula 167:-->
+    <img class="circle" [src]="profileImage">
   </ion-avatar>
   <h2 text-center>{{cliente?.nome}}</h2>
   <p text-center>{{cliente?.email}}</p>

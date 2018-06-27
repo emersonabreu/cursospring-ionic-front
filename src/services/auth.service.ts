@@ -45,6 +45,7 @@ export class AuthService {
         /**Método que faz o App aproveitar o usuário logado Usando o método post auth/refresh_token 
          do EndPoint AuthResource :OBS::Atualiza o Token a partir do atual***/
     refreshToken() {
+        console.log("Atualizou o token"); 
         return this.http.post(
             `${API_CONFIG.baseUrl}/auth/refresh_token`, 
             {},
